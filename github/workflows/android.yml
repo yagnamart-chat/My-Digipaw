@@ -2,13 +2,21 @@ name: Build Android APK
 
 on:
   push:
-    branches: [ "kt-rewrite" ] 
+    branches: [ "kt-rewrite" ]
   pull_request:
     branches: [ "kt-rewrite" ]
-  workflow_dispatch: 
+  workflow_dispatch:
+
+# 🛡️ Only one build at a time (avoid conflicts)
+concurrency:
+  group: build-apk
+  cancel-in-progress: true
 
 jobs:
   build:
+    # 🧠 Guard: ensure only this workflow runs this job
+    if: github.workflow == 'Build Android APK'
+    
     runs-on: ubuntu-latest
 
     steps:
@@ -25,11 +33,11 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
 
-    - name: Build with Gradle
+    - name: Build with Gradle (Debug Only)
       run: ./gradlew assembleDebug
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
         name: DigiPaws-Bulldog-APK
-        path: "**/build/outputs/apk/debug/*.apk"
+        path: app/build/outputs/apk/debug/app-debug.apk
