@@ -2,10 +2,10 @@ name: Build Android APK
 
 on:
   push:
-    branches: [ "kt-rewrite" ] # Kyunki teri branch ka naam kt-rewrite hai
+    branches: [ "kt-rewrite" ] 
   pull_request:
     branches: [ "kt-rewrite" ]
-  workflow_dispatch: # Isse tu manually bhi build button daba sakega
+  workflow_dispatch: 
 
 jobs:
   build:
@@ -31,5 +31,5 @@ jobs:
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
-        name: DigiPaws-Debug-APK
-        path: app/build/outputs/apk/debug/*.apk
+        name: DigiPaws-Bulldog-APK
+        path: "**/build/outputs/apk/debug/*.apk"
